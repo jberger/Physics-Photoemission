@@ -463,7 +463,7 @@ sub fit_routine {
   my $x_pm = sqrt( 2 * $sigma );
 
   # get only the bins in the desired range
-  my @fit_bins = grep { ($_->begin >= ($x0 - $x_pm)) and ($_->end <= ($x0 + $x_pm)) } @{ $self->{bins} };
+  my @fit_bins = grep { ($_->begin >= ($x0 - $x_pm)) and ($_->end <= ($x0 + $x_pm)) } @{ $self->bins };
   my $x_pdl = pdl( map { $_->end } @fit_bins );
   my $N_pdl = pdl( map { ($_->result)[0] } @fit_bins );
   my $mom_pdl = pdl( map { ($_->result)[1] } @fit_bins );
