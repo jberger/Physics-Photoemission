@@ -1,0 +1,18 @@
+### Conditions ###
+tau = 1e-13
+WF = 4.25
+h_nu = 4.75
+DC_field = 1000000
+
+### Results ###
+Electron pulse peak position = 1.10462317860029e-07
+Electron pulse peak velocity = 406684.490666826
+sigma_z = 1.13966358330617e-15
+eta_z = 1.4319725840945e-51
+gamma_z = 1.29818532158387e-33
+
+gamma_offset = 2.40322064285763e-25
+Fit Equation for sigma:
+2810.16817744096 * exp(-(x - 1.10462317860029e-07)^2 / (2 * 1.13966358330617e-15))
+Fit Equation for gamma:
+(1.29818532158387e-33 / 1.13966358330617e-15) * x + 2.40322064285763e-25
