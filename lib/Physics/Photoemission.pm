@@ -465,9 +465,9 @@ sub fit_routine {
   # get only the bins in the desired range
   my @fit_bins = grep { ($_->begin >= ($x0 - $x_pm)) and ($_->end <= ($x0 + $x_pm)) } @{ $self->bins };
   my $x_pdl = pdl( map { $_->end } @fit_bins );
-  my $N_pdl = pdl( map { ($_->result)[0] } @fit_bins );
-  my $mom_pdl = pdl( map { ($_->result)[1] } @fit_bins );
-  my $mom_uncert_2_pdl = pdl( map { (($_->result)[2]) ** 2 } @fit_bins );
+  my $N_pdl = pdl( map { $_->result->[0] } @fit_bins );
+  my $mom_pdl = pdl( map { $_->result->[1] } @fit_bins );
+  my $mom_uncert_2_pdl = pdl( map { ($_->result->[2]) ** 2 } @fit_bins );
 
   # coderef for linear fitting
   my $fit_linear = sub {
