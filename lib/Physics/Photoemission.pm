@@ -227,7 +227,7 @@ sub simulate {
     $progress->update($j);
   }
   $progress->update($num_time_slices);
-  print "\n";
+  print STDERR "\n";
 
   if ( $self->verbose ) {
     my $total = $self->total;
