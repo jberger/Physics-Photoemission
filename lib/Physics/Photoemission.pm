@@ -290,7 +290,7 @@ sub process {
   }
 
   $process_progress->update(scalar @$bins);
-  print "\n";
+  print STDERR "\n";
 
   # calculate sigma_z
   my $sigma = ($av_x2 / $num_electrons) - (($av_x / $num_electrons) ** 2);
