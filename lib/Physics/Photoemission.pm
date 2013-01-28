@@ -232,7 +232,7 @@ sub simulate {
   if ( $self->verbose ) {
     my $total = $self->total;
     my $percent = $total / $num_electrons * 100;
-    print "Allocated a total of $total electrons ($percent\%)\n";
+    print STDERR "Allocated a total of $total electrons ($percent\%)\n";
   }
 
   return $self->result;
@@ -408,14 +408,17 @@ sub num {
 # 2D transmission over a 1D barrier in terms of external k_perpendicular
 sub Trans {
   my $self = shift;
+  my $kV = $self->kV;
 
-  my ($kz) = @_;
-  my $sqrt = sqrt($self->kV ** 2 + $kz ** 2);
+  return sub {
+    my ($kz) = @_;
+    my $sqrt = sqrt($kV ** 2 + $kz ** 2);
 
-  my $numerator = 4 * $sqrt * $kz;
-  my $denominator = ( $sqrt + $kz ) ** 2;
+    my $numerator = 4 * $sqrt * $kz;
+    my $denominator = ( $sqrt + $kz ) ** 2;
 
-  return $numerator / $denominator;
+    return $numerator / $denominator;
+  };
 }
 
 # sub which does integration over v (and theta) as a function of the lower and upper limit velocity
@@ -425,6 +428,9 @@ sub V_Integral {
   my $epsrel = $self->epsrel;
   my $epsabs = $self->epsabs;
 
+  my $T = $self->Trans;
+  my $kmax = $self->vmax * mass / hbar;
+
   # anonymous sub which both does the theta integration and acts as the integrand for the velocity integration
   my $theta_integral = sub {
     my ($v) = @_;
@@ -432,16 +438,13 @@ sub V_Integral {
     # anonymous sub which returns the integrand for the theta integration for a particular velocity
     my $theta_integrand = sub {
       my ($th) = @_;
-      $self->Trans(mass * $v * cos($th) / hbar) * sin($th);
+      my $kz = mass * $v * cos($th) / hbar;
+      $T->($kz);# * ($kmax**2 - $kz**2) * $kz;
     };
-    # end sub
-
-    my $angle_lower = 0;
-    my $angle_upper = pi / 2;
 
     # do the theta integration
     my ($res,$abserr,$ierr,$neval) = gslinteg_qng(
-      $theta_integrand,$angle_lower,$angle_upper,$epsrel,$epsabs
+      $theta_integrand,0,pi/2,$epsrel,$epsabs
     );
 
     return $res;
