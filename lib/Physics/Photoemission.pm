@@ -300,7 +300,8 @@ sub process {
 
   my $result = $self->result;
   $result->{values} = {
-    map { eval { $_->sclr } || $_ } (  # be sure that returned values aren't PDL objects
+    # be sure that returned values aren't PDL objects
+    map { my $sclr = eval { $_->sclr }; defined $sclr ? $sclr : $_ } (
       sigma        => $sigma,
       sigma_coeff  => $sigma_coeff,
       eta          => $eta,
