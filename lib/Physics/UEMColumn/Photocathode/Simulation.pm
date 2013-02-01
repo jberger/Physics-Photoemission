@@ -79,7 +79,7 @@ sub import {
     carp "Second import argument must be a hash reference"
       unless ref $overrides eq 'HASH';
 
-    $package = $package . '::Anon' . $Anon_Class_Num++;
+    $package .= '::Anon' . $Anon_Class_Num++;
 
     no strict 'refs';
     @{ "${package}::ISA" } = __PACKAGE__;
