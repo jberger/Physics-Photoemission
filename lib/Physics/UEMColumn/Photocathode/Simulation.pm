@@ -82,12 +82,12 @@ sub import {
     $package .= '::Anon' . $Anon_Class_Num++;
 
     no strict 'refs';
-    @{ "${package}::ISA" } = __PACKAGE__;
-    *{ "${package}::_build_simulation_overrides" } = sub { +{ %$overrides } };
+    @{ $package . '::ISA' } = __PACKAGE__;
+    *{ $package . '::_build_simulation_overrides' } = sub { +{ %$overrides } };
   }
 
   no strict 'refs';
-  *{ "${caller}::$name" } = sub { $package };
+  *{ $caller . '::' . $name } = sub { $package };
 }
 
 1;
