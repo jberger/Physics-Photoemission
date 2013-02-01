@@ -300,13 +300,15 @@ sub process {
 
   my $result = $self->result;
   $result->{values} = {
-    sigma        => $sigma,
-    sigma_coeff  => $sigma_coeff,
-    eta          => $eta,
-    gamma        => $gamma,
-    gamma_offset => $gamma_offset,
-    x_peak       => $x_peak,
-    v_peak       => $v_peak,
+    map { eval { $_->sclr } || $_ } (  # be sure that returned values aren't PDL objects
+      sigma        => $sigma,
+      sigma_coeff  => $sigma_coeff,
+      eta          => $eta,
+      gamma        => $gamma,
+      gamma_offset => $gamma_offset,
+      x_peak       => $x_peak,
+      v_peak       => $v_peak,
+    )
   };
 
   return $result;
