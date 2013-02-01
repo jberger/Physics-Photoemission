@@ -76,7 +76,7 @@ sub import {
 
   # generate an "anonymous" subclass with new default simulation_overrides
   if ( my $overrides = shift ) {
-    carp "Second import argument must be a hash reference"
+    croak "Second import argument must be a hash reference"
       unless ref $overrides eq 'HASH';
 
     $package .= '::Anon' . $Anon_Class_Num++;
