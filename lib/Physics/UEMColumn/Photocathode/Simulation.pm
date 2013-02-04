@@ -79,11 +79,13 @@ sub import {
     croak "Second import argument must be a hash reference"
       unless ref $overrides eq 'HASH';
 
+    my $shallow_copy = { %$overrides };
+
     $package .= '::Anon' . $Anon_Class_Num++;
 
     no strict 'refs';
     @{ $package . '::ISA' } = __PACKAGE__;
-    *{ $package . '::_build_simulation_overrides' } = sub { +{ %$overrides } };
+    *{ $package . '::_build_simulation_overrides' } = sub { $shallow_copy };
   }
 
   no strict 'refs';
