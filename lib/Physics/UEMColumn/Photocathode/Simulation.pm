@@ -1,5 +1,29 @@
 package Physics::UEMColumn::Photocathode::Simulation;
 
+=head1 NAME
+
+Physics::UEMColumn::Photocathode::Simulation - Subclass of Physics::UEMColumn::Photocathode using Physics::Photoemission 
+
+=head1 SYNOPSIS
+
+  use strict;
+  use warnings;
+
+  use Physics::UEMColumn::Photocathode::Simulation 'SimPhotocathode' => {
+    num_space_bins => 100,
+    num_time_slices => 100,
+  };
+
+  my $photocathode = SimPhotocathode->new(
+    work_function => '4.25 eV',
+  );
+
+  # note that $photocathode must have some access to an appropriate Column object
+
+  my $pulse = $photocathode->generate_pulse( 1e8 );
+
+=cut
+
 use Moo;
 BEGIN{ extends 'Physics::UEMColumn::Photocathode' }
 
