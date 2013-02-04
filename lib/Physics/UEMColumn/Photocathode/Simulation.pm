@@ -87,7 +87,7 @@ sub import {
   }
 
   no strict 'refs';
-  *{ $caller . '::' . $name } = sub { $package };
+  *{ $caller . '::' . $name } = eval "sub () { '$package' }";
 }
 
 1;
