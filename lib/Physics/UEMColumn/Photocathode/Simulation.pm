@@ -71,6 +71,11 @@ sub import {
   my $class = shift;
   my $name = shift || return;
 
+  # P::U aliasing uses an "alias" key, so this support is here for symmetry
+  if ( $name eq 'alias' && $_[0] && ! ref $_[0] ) {
+    $name = shift;
+  }
+
   my $caller = caller;
   my $package = __PACKAGE__;
 
